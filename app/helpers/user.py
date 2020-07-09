@@ -7,7 +7,7 @@ from flask import current_app
 from flask_mail import Mail
 from flask_mail import Message
 from passlib.hash import bcrypt
-
+import app
 from app.helpers.database import get_connection
 
 
@@ -25,11 +25,10 @@ def get_activation_code(email):
                 cur.execute('UPDATE user SET activation_code=%s WHERE username=%s', (activation_code, email,))
                 conn.commit()
                 conn.close()
-                mail = Mail(current_app)
                 msg = Message(subject='Conference account confirmation code.', sender=current_app.config['MAIL_USERNAME'],
                               recipients=[email])
                 msg.body = f'The activation code for {email} is {activation_code}.'
-                mail.send(msg)
+                app.mail.send(msg)
                 return "The activation code has been sent to the given email address.", 200
             else:
                 conn.close()

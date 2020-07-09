@@ -4,8 +4,11 @@ from flasgger import Swagger
 from flask import Flask
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
+from flask_mail import Mail
 
 import app.controllers.user as user
+
+mail = Mail()
 
 
 def create_app():
@@ -16,6 +19,7 @@ def create_app():
     app.logger.setLevel(logging.DEBUG)
     jwt = JWTManager(app)
     app.register_blueprint(user.app)
+    mail.init_app(app)
     return app
 
 
