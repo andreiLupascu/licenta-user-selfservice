@@ -41,9 +41,9 @@ def get_activation_code(email):
 
 def activate_account(request):
     print(request)
-    email = request[0]['username']
-    password = bcrypt.encrypt(base64.b64decode(request[0]['password']).decode("utf-8"))
-    activation_code = request[0]['activation_code']
+    email = request['username']
+    password = bcrypt.encrypt(base64.b64decode(request['password']).decode("utf-8"))
+    activation_code = request['activation_code']
     if activation_code:
         conn = get_connection()
         with conn.cursor(pymysql.cursors.DictCursor) as cur:
